@@ -1,6 +1,6 @@
 
 
-<div class="container">
+<div class="container" style="padding: 10px;">
 
   <h2 class="">Liste des produits</h2>
   <table class="responsive-table striped">
@@ -8,9 +8,9 @@
   <tr>
   <th>ID</th>
   <th>Ref </th>
-  <th>Designation</th>
-  <th>Descriptif</th>
-  <th>PrixUHT</th>
+  <th>Designation </th>
+  <th>Descriptif </th>
+  <th>PrixUHT </th>
   </tr>
 
 </thead>
@@ -23,13 +23,13 @@
   <td>{{p.descriptif}}</td>
   <td>{{p.prixUHT}}</td>
   <td>
-    <a routerLink="/edit{{p.id}}" class="waves-effect waves-light btn right orange">edit</a>
-    <a routerLink="/produit/{{p.id}}" class="waves-effect waves-light btn right red">delete</a>
+    <a routerLink="/edit/{{p.id}}" class="waves-effect waves-light btn btn-primary">edit</a>
+    <a routerLink="/produit/{{p.id}}" class="waves-effect waves-light btn btn-danger">delete</a>
   </td>
 
   </tr>
-  
-  <a routerLink="/addProduit" class="waves-effect waves-light btn right green">Ajouter</a>
+
+  <a routerLink="/addproduit" class="waves-effect waves-light btn btn-success">Ajouter</a>
 </tbody>
   </table>
 

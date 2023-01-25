@@ -4,9 +4,11 @@
 
 
 
-      <app-add-produit></app-add-produit>
-      <br>
+
+
       <app-liste-produit></app-liste-produit>
+
+
 
 
 
@@ -14,9 +16,11 @@
   <div class="row">
     <ng-container *ngFor="let item of produit">
       <div class="card col-md-3">
-        <img src="http://localhost:8085{{item.img}}" alt="" height="">
+        <img src="http://localhost:8085{{item.img}}" alt=""  style="padding: 20px;" >
         <h5 style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis; max-width: 100%;"></h5>
-        <p><strong>Prix : </strong>{{item.prixUHT}}</p>
+        <div class="row" >
+        <p><strong>Prix : </strong>{{item.prixUHT}} € <strong>Descriptif : </strong>{{item.descriptif}}</p>  <p></p>
+      </div>
       </div>
 
 

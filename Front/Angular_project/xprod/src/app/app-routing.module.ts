@@ -25,6 +25,11 @@ const routes: Routes = [
   },
 
   {
+    path:'addproduit',
+    component:AddProduitComponent
+  },
+
+  {
     path:'', redirectTo:'produit', pathMatch:'full'
   }
 ];

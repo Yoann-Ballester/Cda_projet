@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditProduitComponent implements OnInit{
 
-  declare editform : FormGroup;
+  declare editForm : FormGroup;
 
   constructor(
     private produitService:ProduitService,
@@ -20,29 +20,40 @@ export class EditProduitComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    this.editform = this.formBuilder.group({
-      //id:['', Validators.required],         // l'id est commente car il est regle sur auto increment
+
+      this.editForm = this.formBuilder.group({
+      id:['', Validators.required],
       ref:['', Validators.required],
       designation:['', Validators.required],
       descriptif:['', Validators.required],
       prixUHT:['', Validators.required],
       img:['', Validators.required],
-  });
-  // on cree une constante à laquelle on donne l'url correspondant à l'id
+      //reference:['', Validators.required],
+     });
+
+     if(this.route.snapshot.paramMap.get('id')!= null) {
+      return this.edit();
+     }
+
+  }
+
+  edit(){
+    // on cree une constante à laquelle on donne l'url correspondant à l'id
   const id = Number(this.route.snapshot.paramMap.get('id'));
   // on va chercher la methode edit dans les services pour l'utiliser sur l'id
     this.produitService.editProduit(id).subscribe(
       data => {
+
         // insertion des nouvelles data dans editform
-        this.editform.setValue(data);
+        this.editForm.setValue(data);
       }
     );
   }
 
   update(){
-    console.log(this.editform.value);
-    if(this.editform.valid){
-      this.produitService.updateProduit(this.editform.value).subscribe(
+    console.log(this.editForm.value);
+    if(this.editForm.valid){
+      this.produitService.updateProduit(this.editForm.value).subscribe(
         ()=>{
           this.router.navigate(['/produit']);
         }

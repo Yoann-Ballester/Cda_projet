@@ -1,1 +1,46 @@
-<p>edit-produit works!</p>
+<div class="row container" style=" margin-left:auto;">
+    <form class="col s12" [formGroup]="editForm" (ngSubmit)="update()">
+      <div class="">
+
+         <!-- <div class="input-field col s16">
+          <input type="text" id="id" formControlName="id" data-length="10">
+          <label for="">ID</label>
+        </div> -->
+
+        <div class="input-field col s16">
+          <input type="text" id="ref" formControlName="ref" data-length="10">
+          <label for="ref">ref</label>
+        </div>
+
+        <div class="input-field col s16">
+          <input type="text" id="designation" formControlName="designation" data-length="10">
+          <label for="designation">designation</label>
+        </div>
+
+        <div class="input-field col s16">
+          <input type="text" id="descriptif" formControlName="descriptif" data-length="10">
+          <label for="descriptif">descriptif</label>
+        </div>
+
+        <div class="input-field col s16">
+          <input type="text" id="prixUHT" formControlName="prixUHT" data-length="10">
+          <label for="prixUHT">prixUHT</label>
+        </div>
+
+        <div class="input-field col s16">
+          <input type="text" id="img" formControlName="img" >
+          <label for="img">img</label>
+        </div>
+
+      </div>
+
+    <button type="submit">Soumettre</button>
+
+    </form>
+<div class="row">
+  {{editForm.value|json}}
+</div>
+
+
+ </div>
+

@@ -28,7 +28,8 @@ export class ProduitService {
   }
 
   updateProduit(produit:Produit){
-    return this.http.put(AppSettings.APP_URL+"/produits",JSON.stringify(produit),this.httpOptions);
+    return this.http.put(AppSettings.APP_URL+"/produits/"+produit.id,JSON.stringify(produit),this.httpOptions);
+    // return this.http.put(AppSettings.APP_URL+"/produits",produit);
   }
 
   deleteProduit(id:number){
