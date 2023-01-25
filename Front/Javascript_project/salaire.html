@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salaire</title>
+
+    <script>
+
+        var salaire = {
+            base:4000,// propriete salaire de base
+            taux:0.08,// taux d'imposition
+            dateNetPaye: "11/01/2023",
+            congesPayes:200,
+            montantSalaire: function(taux,base,congesPayes) {
+                //console.log(arguments);
+                var montSal=base*taux+congesPayes;
+                return montSal
+            }
+        };
+
+        var personne = {}
+            personne.nom="DURAND";
+            personne.prenom="Patrick";
+            function direBonjour() {
+               return console.log(personne.nom + " "+personne.prenom +" dit bonjour");
+            }
+
+        
+
+
+        var a = salaire.montantSalaire(2500,0.08,300)
+        var b = salaire.montantSalaire(3000,0.08,300)
+        var c = salaire.montantSalaire(2780,0.08,300)
+
+        console.log(a)
+        console.log(b)
+        console.log(c)
+
+        var impots={}
+        impots.netAvantImpot=3000;
+        impots.baseImpot = 300;
+        impots.tauxPersImpot=0.08;
+        impots.montantPreleImpot=230;
+        impots.totalVerseEmployeur = function(baseImpot,tauxPersImpot,montantPreleImpot){
+            var netAvantImpot= tauxPersImpot*baseImpot;
+            var total = netAvantImpot+montantPreleImpot;
+            return total;
+        };
+        
+        var tot1 = impots.totalVerseEmployeur(2500,0.08,300);
+        var tot2 = impots.totalVerseEmployeur(4500,0.08,500);
+
+        console.log("Le total versé de tot1 : " +tot1);
+        console.log("Le total versé de tot2 : " +tot2);
+
+
+
+    </script>
+</head>
+<body>
+
+    <a href="index.html">index.html</a>
+    <a href="employeur.html">employeur.html</a>
+    
+</body>
+</html>

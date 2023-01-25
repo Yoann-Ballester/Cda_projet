@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employeur</title>
+    <script>
+
+        // utilisation de l'objet WindoW
+
+        var innerH = window.innerHeight;
+        var innerW = window.innerWidth;
+
+        console.log(innerH,"x",innerW)
+        console.log(location.href)
+
+
+        var Employeur = function(p_rainsonSocial,p_codeAPE, p_siret) {
+            this.raionSociale = p_rainsonSocial;
+            this.codeAPE = p_codeAPE;
+            this.siret = p_siret;
+
+            this.afficheInfosEmpl = function() {
+                console.log('Raison sociale : '+this.raionSociale, ' Code APE : '+ this.codeAPE, ' siret : '+ this.siret)
+            }
+        };
+
+
+        a = new Employeur("TOTO",5897897,"31245fg43")
+
+        a.afficheInfosEmpl();
+
+
+
+    </script>
+</head>
+<body>
+
+    <h1 id="le_titre">El title</h1>
+        <script>
+            var le_titre = document.getElementById("le_titre")
+            console.log(le_titre.innerHTML)
+        </script>
+
+    <div id="mon_id" class="panel">
+        <ul>
+            <li>ID Salarié</li>
+            <li>nom</li>
+            <li>prenom</li>
+            <li>Adresse</li>
+            <li>cp</li>
+            <li>ville</li>
+            <li>pays</li>
+        </ul>
+    </div>
+
+    <a href="index.html">index.html</a>
+    <a href="salaire.html">Salaire.html</a>
+
+    <form action="employeur.html" method="post" name="employeur_FormName">
+
+        Raison sociale : <input type="text" name="raionSociale"> <br>
+        code APE : <input type="text" name="codeAPE"> <br>
+        siret : <input type="text" name="siret"> <br>
+        Soumis TVA (YES/NO) : <input type="checkbox" name="" checked="checked">
+
+    </form>
+
+    <script>
+        var form = document.forms['employeur_FormName'];
+        console.dir(form)
+
+        var RS = form.raionSociale;
+        var APE = form.codeAPE;
+        var Siret = form.siret;
+
+        console.log(RS.value)
+
+    </script>
+    
+</body>
+</html>

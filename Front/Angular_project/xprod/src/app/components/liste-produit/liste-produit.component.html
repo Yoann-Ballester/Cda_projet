@@ -1,0 +1,36 @@
+
+
+<div class="container">
+
+  <h2 class="">Liste des produits</h2>
+  <table class="responsive-table striped">
+    <thead>
+  <tr>
+  <th>ID</th>
+  <th>Ref </th>
+  <th>Designation</th>
+  <th>Descriptif</th>
+  <th>PrixUHT</th>
+  </tr>
+
+</thead>
+
+<tbody>
+  <tr *ngFor="let p of produit">
+  <td>{{p.id}}</td>
+  <td>{{p.ref}}</td>
+  <td>{{p.designation}}</td>
+  <td>{{p.descriptif}}</td>
+  <td>{{p.prixUHT}}</td>
+  <td>
+    <a routerLink="/edit{{p.id}}" class="waves-effect waves-light btn right orange">edit</a>
+    <a routerLink="/produit/{{p.id}}" class="waves-effect waves-light btn right red">delete</a>
+  </td>
+
+  </tr>
+  
+  <a routerLink="/addProduit" class="waves-effect waves-light btn right green">Ajouter</a>
+</tbody>
+  </table>
+
+</div>

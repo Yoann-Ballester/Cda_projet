@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salarié</title>
+    <script>
+       // alert('Infos Salarié');
+        var age=40;
+        var nom="Dugarry";
+        var prenom="Laurent";
+        var numSecurite="123456";
+        var dateDebut=null;
+       var a = [1,2,3]
+        a[1]=8;
+        a[2]=7;
+        delete a[0];
+
+        // tableau des informations du salarié
+
+        var salarieInfo = [nom,prenom,age,numSecurite,dateDebut];
+       
+        console.log("l'age de Laurent est :" +age);
+        console.log("Son numéro de sécurite sociale est : "+numSecurite)
+        console.log("Le type de l'age est :"+ typeof age);
+        console.log("Le type de numSecurite est :"+ typeof numSecurite);
+        console.log("Le type de dateDebut est :"+ typeof dateDebut);
+        console.log(a);
+        console.log(a[2]);
+        console.log(a.length);
+        console.log(salarieInfo);
+        console.log(salarieInfo[1]);
+
+        // je changes la valeur du prenom
+        salarieInfo[1]="Albert"
+        console.log(salarieInfo);
+
+        salarieInfo[8]=3000+" euros";
+        console.log(salarieInfo);
+
+        var sal1 = ["Jean","Louis","123456",dateDebut];
+        var sal2 = ["Kylian","Mbappe","123456",dateDebut];
+        var sal3 = ["leo","Messi","123456",dateDebut];
+        var listeSalarie=[sal1,sal2,sal3]
+
+        console.log("Numero Social de Kylian :" + listeSalarie[1][2]);
+        console.log("Prenom de Messi :" + listeSalarie[2][0]);
+        
+        // calcul salaire montant net
+        
+        function montantNet(taux, base){
+            
+            var mont = taux*base;
+            return mont;
+            
+        }
+
+        function test2(){
+            return arguments;
+        }
+
+        console.log(montantNet(0.80,4000));
+
+       
+
+        var result = test2(montantNet(0.008,1500000),listeSalarie[1][1]);
+        var result1 = test2(montantNet(0.008,3000000),listeSalarie[2][1]);
+
+        var result3 = testMontant(0.008,1500000,listeSalarie[1][1]);
+        var result4 = testMontant("Jean","Pierre",listeSalarie[2][1]);
+
+
+       
+
+        function testMontant(taux,base){
+           // console.log(arguments);
+           
+            if(!isNaN(taux)&&!isNaN(base)){
+                 mont = taux*base;
+                return mont;
+            }else mont = "Entrez des nombres";
+            return mont;
+        }
+
+        
+
+
+        console.log(result);
+        console.log(result1);
+        
+        console.log(result3)
+        console.log(result4)
+
+
+        //Test portee de notre variable
+
+        //console.log( mont); 
+
+        // Creer un objet et une methode qui affiche les infos du salarie
+        
+        var Salarie = {
+            idSalarie :1,
+            nom: "Lefou",
+            prenom: "Patrick",
+            adresse:"3 rue de la routourne tourne",
+            ville: "Paris",
+            pays:"france",
+            numSecu:112345,
+            dateDebut:"10/02/2023",
+            anciennete:"Vieux",
+            posteOccupe: "Aucun",
+            classification:"tresClasse",
+            catégorie:"leBest",
+
+            infosalarie : function () {
+               
+            a= [
+            this.idSalarie, 
+            this.nom,
+            this.prenom,
+            this.Adresse,
+            this.ville,
+            this.pays,
+            this.numSecu,
+            this.dateDebut,
+            this.anciennete,
+            this.posteOccupe,
+            this.classification,
+            this.catégorie
+            ]
+            return a;
+            }           
+
+        }
+        console.log(Salarie.infosalarie());
+
+        // creation d'un contructeur
+
+        var salarie = function(s_nom,s_prenom,s_datedebut, s_numsecu){
+            this.nom=s_nom;
+            this.prenom=s_prenom;
+            this.numSecu=s_numsecu
+            this.dateDebut=s_datedebut;
+        }
+
+        salarie.prototype.age=45;
+        salarie.prototype.getAge = function() {
+            return this.age;
+        }
+
+        var salarie1 = new salarie("Toto","titi","10/03/2023", 12345);
+        var salarie2 = new salarie("tata","tutu","10/03/2023", 12345);
+        var salarie3 = new salarie("Gege","juju","10/03/2023", 12345);
+
+
+
+        salarie.prototype.age = 130;
+        console.log(salarie1.getAge());
+        console.log(salarie2.getAge());
+        console.log(salarie3.getAge());
+
+        // amelioration des objets en js
+
+        Array.prototype.showAllSalaries = function() {
+            for(var i =0; i<= this.length-1;i++){
+            console.log(this[i]);
+            }
+        };
+
+        // creation d'un tableau
+        var tabSalarie = [salarie1,salarie2,salarie3];
+        tabSalarie.showAllSalaries();
+
+
+    </script>
+</head>
+<body>
+    
+    <div id="mon_id" class="panel">
+        <ul>
+            <li>ID Salarié</li>
+            <li>nom</li>
+            <li>prenom</li>
+            <li>Adresse</li>
+            <li>cp</li>
+            <li>ville</li>
+            <li>pays</li>
+        </ul>
+
+        <a href="salaire.html">Salaire.html</a>
+        <a href="employeur.html">employeur.html</a>
+    </div>
+
+</body>
+</html>
