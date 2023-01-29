@@ -31,7 +31,10 @@ public class Produit implements Serializable{
 	@Column(name = "img")	
 	private String img;
 	
-	
+	// EXEMPLE ONETOMANY
+//	@Column(name = "ListClass")
+//	@OneToMany (fetch = FetchType.LAZY, mappedBy = "id")
+//	private List<Class> listClass = new ArrayList<>();
 	
 	public Produit(Long id, String ref, String designation, String descriptif, float prixUHT, String img) {
 		super();
