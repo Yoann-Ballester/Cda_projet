@@ -1,6 +1,7 @@
 package com.xprodcda.spring.xprodcda.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
@@ -25,8 +26,8 @@ private String username;
 private String password;
 private String email;
 private String profileImageUrl;
-private String lastLoginDate;
-private String lastLoginDateDisplay;
+private Date lastLoginDate;
+private Date lastLoginDateDisplay;
 private String joinDate;
 private String role; // ROLE_USER(read,edit) ROLE_ADMIN (delete)
 private String[] authorities; // Are permissions: read, edit, delete
@@ -42,7 +43,7 @@ private boolean isNotLocked;
 
 
 public User(Long id, String userId, String firstName, String lastName, String username, String password, String email,
-		String profileImageUrl, String lastLoginDate, String lastLoginDateDisplay, String joinDate, String role,
+		String profileImageUrl, Date lastLoginDate, Date lastLoginDateDisplay, String joinDate, String role,
 		String[] authorities, boolean isActive, boolean isNotLocked) {
 	super();
 	this.id = id;
@@ -121,17 +122,17 @@ public String getProfileImageUrl() {
 public void setProfileImageUrl(String profileImageUrl) {
 	this.profileImageUrl = profileImageUrl;
 }
-public String getLastLoginDate() {
+public Date getLastLoginDate() {
 	return lastLoginDate;
 }
-public void setLastLoginDate(String lastLoginDate) {
-	this.lastLoginDate = lastLoginDate;
+public void setLastLoginDate(Date date) {
+	this.lastLoginDate = date;
 }
-public String getLastLoginDateDisplay() {
+public Date getLastLoginDateDisplay() {
 	return lastLoginDateDisplay;
 }
-public void setLastLoginDateDisplay(String lastLoginDateDisplay) {
-	this.lastLoginDateDisplay = lastLoginDateDisplay;
+public void setLastLoginDateDisplay(Date date) {
+	this.lastLoginDateDisplay = date;
 }
 public String getJoinDate() {
 	return joinDate;

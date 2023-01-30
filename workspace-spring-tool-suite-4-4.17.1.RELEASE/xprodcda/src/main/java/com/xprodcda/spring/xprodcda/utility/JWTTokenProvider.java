@@ -1,13 +1,24 @@
 package com.xprodcda.spring.xprodcda.utility;
 
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
 import com.xprodcda.spring.xprodcda.domain.UserPrincipal;
+
+import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpServletRequest;
+
 import static com.xprodcda.spring.xprodcda.constant.SecurityConstant.*;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
@@ -17,10 +28,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import static java.util.Arrays.stream;
 
+
+@Component
 public class JWTTokenProvider {
 
 	
-	@Value("jwt.secret")
+	@Value("${jwt.secret}") // comes from application.properties
 	private String secret;
 	
 	public String generateJwtToken(UserPrincipal userPrincipal) {
@@ -45,8 +58,15 @@ public class JWTTokenProvider {
 
 
 	private JWTVerifier getJWTVerifier() {
-		// TODO Auto-generated method stub
-		return null;
+		JWTVerifier verifier;
+		try {
+			Algorithm algorithm = HMAC512(secret);
+			verifier = JWT.require(algorithm).withIssuer(GET_ARRAYS_LLC).build();
+		} catch (JWTVerificationException e) {
+			throw new JWTVerificationException(TOKEN_CANNOT_BE_VERIFIED);
+		}
+		
+		return verifier;
 	}
 
 	private String[] getClaimsFromUser(UserPrincipal user) {
@@ -57,5 +77,30 @@ public class JWTTokenProvider {
 		}
 		return authorities.toArray(new String[0]);
 	}
+	
+	// recupere les authentifications une fois le token verifie
+	 public Authentication getAuthentication(String username, List<GrantedAuthority> authorities, HttpServletRequest request) {
+		UsernamePasswordAuthenticationToken usernamePasswordAuthToken = new
+				UsernamePasswordAuthenticationToken(username, null,authorities);
+		usernamePasswordAuthToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		return usernamePasswordAuthToken;
+		 
+	 }
 	 
+	 public boolean isTokenValid(String username, String token) {
+		 JWTVerifier verifier = getJWTVerifier();
+		 return StringUtils.isNotEmpty(username)&& !isTokenExpired(verifier,token);
+		 
+	 }
+
+	 // Verification de l'expiration de la date du token
+	private boolean isTokenExpired(JWTVerifier verifier, String token) {
+		Date expiration = verifier.verify(token).getExpiresAt();
+		return expiration.before(new Date());
+	}
+	
+	public String getSubject(String token) {
+		 JWTVerifier verifier = getJWTVerifier();
+		 return verifier.verify(token).getSubject();
+	}
 }
