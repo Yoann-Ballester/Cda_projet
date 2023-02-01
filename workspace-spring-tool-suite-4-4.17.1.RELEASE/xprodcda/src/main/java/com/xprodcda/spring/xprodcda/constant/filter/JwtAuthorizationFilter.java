@@ -3,10 +3,12 @@ package com.xprodcda.spring.xprodcda.constant.filter;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.xprodcda.spring.xprodcda.utility.JWTTokenProvider;
@@ -19,13 +21,14 @@ import static com.xprodcda.spring.xprodcda.constant.SecurityConstant.*;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
  
+@Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter{
 	
 	private JWTTokenProvider jwtTokenProvider;
 	
 	
 	
-
+	
 	public JwtAuthorizationFilter(JWTTokenProvider jwtTokenProvider) {
 		super();
 		this.jwtTokenProvider = jwtTokenProvider;
