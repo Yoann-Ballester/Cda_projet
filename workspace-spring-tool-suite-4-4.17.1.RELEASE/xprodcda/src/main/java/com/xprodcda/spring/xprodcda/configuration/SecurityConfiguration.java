@@ -14,7 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.xprodcda.spring.xprodcda.constant.SecurityConstant;
@@ -22,9 +22,7 @@ import com.xprodcda.spring.xprodcda.constant.filter.JwtAccessDeniedHandler;
 import com.xprodcda.spring.xprodcda.constant.filter.JwtAuthenticationEntryPoint;
 import com.xprodcda.spring.xprodcda.constant.filter.JwtAuthorizationFilter;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 
 @Configuration
 @EnableWebSecurity

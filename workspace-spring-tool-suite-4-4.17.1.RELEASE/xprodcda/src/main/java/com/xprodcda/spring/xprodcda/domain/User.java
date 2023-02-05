@@ -28,7 +28,7 @@ private String email;
 private String profileImageUrl;
 private Date lastLoginDate;
 private Date lastLoginDateDisplay;
-private String joinDate;
+private Date joinDate;
 private String role; // ROLE_USER(read,edit) ROLE_ADMIN (delete)
 private String[] authorities; // Are permissions: read, edit, delete
 private boolean isActive;
@@ -43,7 +43,7 @@ private boolean isNotLocked;
 
 
 public User(Long id, String userId, String firstName, String lastName, String username, String password, String email,
-		String profileImageUrl, Date lastLoginDate, Date lastLoginDateDisplay, String joinDate, String role,
+		String profileImageUrl, Date lastLoginDate, Date lastLoginDateDisplay, Date joinDate, String role,
 		String[] authorities, boolean isActive, boolean isNotLocked) {
 	super();
 	this.id = id;
@@ -134,11 +134,11 @@ public Date getLastLoginDateDisplay() {
 public void setLastLoginDateDisplay(Date date) {
 	this.lastLoginDateDisplay = date;
 }
-public String getJoinDate() {
+public Date getJoinDate() {
 	return joinDate;
 }
-public void setJoinDate(String joinDate) {
-	this.joinDate = joinDate;
+public void setJoinDate(Date date) {
+	this.joinDate = date;
 }
 public String getRole() {
 	return role;
