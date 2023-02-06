@@ -8,10 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,6 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import jakarta.transaction.Transactional;
 
 import static com.xprodcda.spring.xprodcda.enumeration.Role.*;
+import static com.xprodcda.spring.xprodcda.constant.SecurityConstant.*;
 
 
 @Service
@@ -36,17 +39,23 @@ import static com.xprodcda.spring.xprodcda.enumeration.Role.*;
 public class UserServiceImpl implements IUserService, UserDetailsService {
 
 	
+	
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private IUserRepository  userRepository; 
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	
-	@Autowired
+	
+	
 	public UserServiceImpl(IUserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
 		super();
 		this.userRepository = userRepository;
 		this.passwordEncoder= passwordEncoder;
 	}
+	
+	
+
+
 
 
 
@@ -54,21 +63,23 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findUserByUsername(username);
 		if(user==null) {
-			LOGGER.error("User not found by username: "+username);
-			throw new UsernameNotFoundException("User not found by username: "+username);
+			LOGGER.error(NO_USER_FOUND_BY_USERNAME+username);
+			throw new UsernameNotFoundException(NO_USER_FOUND_BY_USERNAME+username);
 		}else {
 			user.setLastLoginDateDisplay(user.getLastLoginDate());
 			user.setLastLoginDate(new Date());
 			userRepository.save(user);
 			UserPrincipal userPrincipal = new UserPrincipal(user);
-			LOGGER.info("Returning found by username: "+username);
+			LOGGER.info(FOUND_USER_BY_USERNAME+username);
 			return userPrincipal;
 		}
 				
 	}
 
 
-
+	// Ajoute également un objet utilisateur dans la base de données, réserver au front office elle est destinée 
+			// à l'ajout d'un utilisateur lorsqu'un utilisateur créé un compte dans l'application
+	
 	@Override
 	public User register(String firstname, String lastname, String username, String email) {
 		try {
@@ -90,7 +101,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 			user.setProfileImageUrl(getTemporaryProfileImageUrl());
 			
 			userRepository.save(user);
-			LOGGER.info("New User password : " + password);
+			LOGGER.info(NEW_USER_PASSWORD + password);
+			return user;
 			
 		} catch (UserNotFoundException | UsernameExistException | EmailExistException e) {
 			e.printStackTrace();
@@ -121,65 +133,73 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
 	private String getTemporaryProfileImageUrl() {
 		
-		return ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/image/profile/temp").toString();
+		return ServletUriComponentsBuilder.fromCurrentContextPath().path(DEFAULT_USER_IMAGE_PATH).toString();
 	}
 
 
 
-	private User validateNewUsernameAndEmail(String currentUsername, String userNewByUsername, String userNewByEmail)
+	// validateNewUsernameAndEmail() est appelé par validateNewUsernameAndEmail() et register()
+			// elle vérifie si les valeurs Username et Email appartiennent déjà à un utlisateur 
+	
+	
+	
+	private User validateNewUsernameAndEmail(String currentUsername, String newUsername, String newEmail)
 			throws UserNotFoundException, UsernameExistException, EmailExistException {
-		
-		User userByUsername = findUserByUsername(userNewByUsername);
-		User userByEmail = findUserByUsername(userNewByEmail);
-		
+
+		User userByNewUsername = findUserByUsername(newUsername);
+		User userByNewEmail = findUserByEmail(newEmail);
+
 		if (StringUtils.isNotBlank(currentUsername)) {
-			
 			User currentUser = findUserByUsername(currentUsername);
-					
+
 			if (currentUser == null) {
-				throw new UserNotFoundException("No user found by username" + currentUsername);
+				throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + currentUsername);
 			}
-			if (userByUsername != null && !currentUser.equals(userByUsername)) {
-				throw new UsernameExistException("Username already exists");
+
+			if (userByNewUsername != null && !currentUser.getUserId().equals(userByNewUsername.getUserId())) {
+
+				throw new UsernameExistException(USERNAME_ALREADY_EXIST);
 			}
-			if (currentUser != null && !currentUser.equals(userByEmail)) {
-				throw new EmailExistException("Username already exists");
+
+			if (userByNewEmail != null && !currentUser.getUserId().equals(userByNewEmail.getUserId())) {
+				throw new EmailExistException(EMAIL_ALREADY_EXIST);
 			}
 			return currentUser;
 		} else {
 
-			if (userNewByUsername != null) {
-				throw new UsernameExistException("Username already exists"+userNewByUsername);
+			if (userByNewUsername != null) {
+				throw new UsernameExistException(USERNAME_ALREADY_EXIST + userByNewUsername);
 			}
 
-			if (userNewByEmail != null) {
-				throw new EmailExistException("Username already exists"+userNewByEmail);
+			if (userByNewEmail != null) {
+				throw new EmailExistException(EMAIL_ALREADY_EXIST + currentUsername + userByNewEmail);
 			}
+			return null;
 		}
-		return null;
-
 	}
+	
+
 
 	@Override
 	public List<User> getUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return userRepository.findAll();
 	}
 
 
 
 	@Override
 	public User findUserByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return userRepository.findUserByUsername(username);
 	}
 
 
 
 	@Override
 	public User findUserByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return userRepository.findUserByEmail(email);
 	}
 	
 	

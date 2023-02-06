@@ -14,6 +14,12 @@ public class SecurityConstant {
 	public static final String ACCES_DENIES_MESSAGE = "You do not have the permission to access this page";
 	public static final String OPTIONS_HTTP_METHOD = "OPTIONS";
 	public static final String[] PUBLIC_URLS = {"*"};
+	public static final String FOUND_USER_BY_USERNAME = "Returning found by username: ";
+	public static final String DEFAULT_USER_IMAGE_PATH = "/user/image/profile/temp";	
+	public static final String EMAIL_ALREADY_EXIST = "Email already exist";
+	public static final String USERNAME_ALREADY_EXIST = "Username already exist";
+	public static final String NO_USER_FOUND_BY_USERNAME = "User not found ";
+	public static final String NEW_USER_PASSWORD = "New user password : ";
 	//public static final String[] PUBLIC_URLS = {"/user/login","user/register","/user/resetpassword/**","/user/image/**"}; // URL qui ne sont pas bloqué
 	
 }
