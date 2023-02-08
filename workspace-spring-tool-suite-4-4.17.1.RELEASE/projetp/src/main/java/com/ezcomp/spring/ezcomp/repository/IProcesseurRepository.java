@@ -1,0 +1,9 @@
+package com.ezcomp.spring.ezcomp.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.ezcomp.spring.ezcomp.domain.Processeur;
+
+public interface IProcesseurRepository extends JpaRepository<Processeur, Long>{
+
+}

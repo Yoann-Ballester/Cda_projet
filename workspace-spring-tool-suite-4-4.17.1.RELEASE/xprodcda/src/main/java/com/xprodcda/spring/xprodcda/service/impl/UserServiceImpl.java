@@ -2,6 +2,7 @@ package com.xprodcda.spring.xprodcda.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ import com.xprodcda.spring.xprodcda.exception.domain.UserNotFoundException;
 import com.xprodcda.spring.xprodcda.exception.domain.UsernameExistException;
 import com.xprodcda.spring.xprodcda.repository.IUserRepository;
 import com.xprodcda.spring.xprodcda.service.IUserService;
-
+import com.xprodcda.spring.xprodcda.service.LoginAttemptService;
 
 import org.apache.commons.lang3.StringUtils;
 import jakarta.transaction.Transactional;
@@ -39,7 +40,7 @@ import static com.xprodcda.spring.xprodcda.constant.SecurityConstant.*;
 public class UserServiceImpl implements IUserService, UserDetailsService {
 
 	
-	
+	private LoginAttemptService loginAttemptService;
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private IUserRepository  userRepository; 
 	private BCryptPasswordEncoder passwordEncoder;
@@ -47,10 +48,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	
 	
 	
-	public UserServiceImpl(IUserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+	
+	public UserServiceImpl(IUserRepository userRepository, BCryptPasswordEncoder passwordEncoder,  LoginAttemptService loginAttemptService) {
 		super();
 		this.userRepository = userRepository;
 		this.passwordEncoder= passwordEncoder;
+		this.loginAttemptService = loginAttemptService;
 	}
 	
 	
@@ -66,6 +69,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 			LOGGER.error(NO_USER_FOUND_BY_USERNAME+username);
 			throw new UsernameNotFoundException(NO_USER_FOUND_BY_USERNAME+username);
 		}else {
+			try {
+				validateLoginAttempt(user);
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			user.setLastLoginDateDisplay(user.getLastLoginDate());
 			user.setLastLoginDate(new Date());
 			userRepository.save(user);
@@ -75,6 +84,25 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		}
 				
 	}
+
+
+	private void validateLoginAttempt(User user) throws ExecutionException {
+		if(user.isNotLocked()) {
+			if (loginAttemptService.hasExceededMaxAttempts(user.getUsername())) {
+				user.setNotLocked(false);
+			}else {
+				user.setNotLocked(true);
+			}
+		}else {
+			loginAttemptService.evictUserFromLoginAttemptCache(user.getUsername());
+		}
+		
+	}
+
+
+
+
+
 
 
 	// Ajoute également un objet utilisateur dans la base de données, réserver au front office elle est destinée 
