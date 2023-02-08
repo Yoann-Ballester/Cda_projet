@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.mail.MessagingException;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,7 @@ import com.xprodcda.spring.xprodcda.exception.domain.EmailExistException;
 import com.xprodcda.spring.xprodcda.exception.domain.UserNotFoundException;
 import com.xprodcda.spring.xprodcda.exception.domain.UsernameExistException;
 import com.xprodcda.spring.xprodcda.repository.IUserRepository;
+import com.xprodcda.spring.xprodcda.service.EmailService;
 import com.xprodcda.spring.xprodcda.service.IUserService;
 import com.xprodcda.spring.xprodcda.service.LoginAttemptService;
 
@@ -44,16 +47,17 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private IUserRepository  userRepository; 
 	private BCryptPasswordEncoder passwordEncoder;
+	private EmailService emailService;
 	
 	
 	
 	
-	
-	public UserServiceImpl(IUserRepository userRepository, BCryptPasswordEncoder passwordEncoder,  LoginAttemptService loginAttemptService) {
+	public UserServiceImpl(IUserRepository userRepository, BCryptPasswordEncoder passwordEncoder,  LoginAttemptService loginAttemptService, EmailService emailService) {
 		super();
 		this.userRepository = userRepository;
 		this.passwordEncoder= passwordEncoder;
 		this.loginAttemptService = loginAttemptService;
+		this.emailService = emailService;
 	}
 	
 	
@@ -80,6 +84,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 			userRepository.save(user);
 			UserPrincipal userPrincipal = new UserPrincipal(user);
 			LOGGER.info(FOUND_USER_BY_USERNAME+username);
+			
 			return userPrincipal;
 		}
 				
@@ -130,9 +135,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 			
 			userRepository.save(user);
 			LOGGER.info(NEW_USER_PASSWORD + password);
+			
+			
+			emailService.sendNewPasswordEmail(firstname, password, email);
+			
 			return user;
 			
-		} catch (UserNotFoundException | UsernameExistException | EmailExistException e) {
+		} catch (UserNotFoundException | UsernameExistException | EmailExistException | MessagingException e) {
 			e.printStackTrace();
 		}
 		return null;
