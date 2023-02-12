@@ -1,0 +1,36 @@
+<div class="container" style="margin-left: auto; margin-right: auto;">
+
+
+
+
+
+<!--
+
+  <app-liste-produit></app-liste-produit>
+-->
+
+<app-header></app-header>
+
+
+<div class="container">
+  <div class="row">
+  <p style="font-weight: bolder;">Tous les produits :</p>
+</div>
+<div class="row">
+
+<ng-container *ngFor="let item of produit">
+  <div class="card col-md-3">
+    <img src="http://localhost:8090{{item.img}}" alt=""  style="padding: 20px;" >
+    <h5 style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis; max-width: 100%;"></h5>
+    <div class="row" >
+    <p class="produitexte"><strong>Prix : </strong>{{item.prixUHT}} € <strong>Descriptif : </strong>{{item.descriptif}}</p>
+  </div>
+  </div>
+
+
+
+</ng-container>
+</div>
+</div>
+</div>
+
