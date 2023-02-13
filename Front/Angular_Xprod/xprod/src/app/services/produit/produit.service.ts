@@ -1,5 +1,5 @@
-import { Produit } from './../models/produit/produit';
-import { AppSettings } from './../settings/app.settings';
+import { Produit } from '../../models/produit/produit';
+import { AppSettings } from '../../settings/app.settings';
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 
