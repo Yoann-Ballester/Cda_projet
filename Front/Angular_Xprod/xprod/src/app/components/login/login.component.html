@@ -1,0 +1,53 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+
+
+<div class="container " style="padding: 30px; text-align: center;">
+  <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)">
+    <div class="lc-block col-md-4 col-md-offset-4 toggled" id="l-login">
+
+        <div class="lcb-float"><i class="fa fa-users"></i>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" name="username" placeholder="Username" ngModel #usernameInput="ngModel" required>
+        </div>
+
+        <span class="help-block" style="color: red ;" *ngIf="!usernameInput.valid && usernameInput.touched">Please enter a username</span>
+
+        <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="Password" ngModel #passwordInput="ngModel" required>
+        </div>
+        <span class="help-block" style="color: red ;" *ngIf="!passwordInput.valid && passwordInput.touched">Please enter a password</span>
+        <!-- <div class="clearfix"></div> -->
+
+        <!-- <a href="" class="btn btn-block btn-primary btn-float m-t-25">Sign In</a> -->
+
+        <button type="submit"  [disabled]="loginForm.form.invalid " class="btn btn-block btn-success btn-float m-t-25">
+          Sign In
+      <div *ngIf="showLoading" class="spinner-border" role="status" style="    --bs-spinner-width: 1.5rem;
+      --bs-spinner-height: 1.5rem; position: relative; top: 5px; left: 2px;"></div>
+        </button>
+
+
+
+
+
+
+
+          <!-- <span>Loading...</span>
+          <span>Login</span> -->
+
+        <div>
+          <a routerLink="/register" style="text-decoration: none;">register</a>
+        </div>
+
+
+
+      </div>
+  </form>
+</div>
+
+
+

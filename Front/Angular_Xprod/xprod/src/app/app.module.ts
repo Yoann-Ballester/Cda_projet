@@ -1,3 +1,5 @@
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
 import { NotificationService } from './services/notification/notification.service';
 import { NotificationModule } from './notification.module';
 
@@ -19,6 +21,7 @@ import { AddProduitComponent } from './components/add-produit/add-produit.compon
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListeProduitComponent } from './components/liste-produit/liste-produit.component';
 import { EditProduitComponent } from './edit-produit/edit-produit.component';
+import { UserComponent } from './components/user/user.component';
 
 
 
@@ -31,6 +34,9 @@ import { EditProduitComponent } from './edit-produit/edit-produit.component';
     AddProduitComponent,
     ListeProduitComponent,
     EditProduitComponent,
+    LoginComponent,
+    RegisterComponent,
+    UserComponent
 
   ],
   imports: [
