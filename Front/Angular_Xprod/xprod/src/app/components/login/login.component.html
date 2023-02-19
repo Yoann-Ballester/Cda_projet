@@ -26,18 +26,9 @@
 
         <button type="submit"  [disabled]="loginForm.form.invalid " class="btn btn-block btn-success btn-float m-t-25">
           Sign In
-      <div *ngIf="showLoading" class="spinner-border" role="status" style="    --bs-spinner-width: 1.5rem;
-      --bs-spinner-height: 1.5rem; position: relative; top: 5px; left: 2px;"></div>
+      <div *ngIf="showLoading" class="spinner-border" role="status" style="--bs-spinner-width: 1.5rem;--bs-spinner-height: 1.5rem; position: relative; top: 5px; left: 2px;">
+      </div>
         </button>
-
-
-
-
-
-
-
-          <!-- <span>Loading...</span>
-          <span>Login</span> -->
 
         <div>
           <a routerLink="/register" style="text-decoration: none;">register</a>

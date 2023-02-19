@@ -1,0 +1,30 @@
+<a routerLink="/addProduit"
+class="waves-effect waves-light btn right orange">Ajouter</a>
+<h2>Les produits</h2>
+<table id="table_id" class="responsive-table striped">
+    <thead class="white-text #506e7e blue-grey darken-1">
+        <tr>
+      <th>ID</th>
+      <th>DESIGNATION</th>
+      <th>DESCRIPTIF</th>
+      <th>PRIX UHT</th>
+      <th>REF INTERNE</th>
+  
+    </tr>
+    </thead>
+   <tbody>
+     <tr *ngFor="let p of produits">
+      <td>{{p.id}}</td>
+      <td>{{p.refInterne}}</td>
+      <td>{{p.designation}}</td>
+      <td>{{p.descriptif}}</td>
+      <td>{{p.prixUHT}}</td>
+      <td>
+        <a routerLink="/edit/{{p.id}}" class="waves-effect waves-light btn right #e65100 green">Edit |</a>
+        <a routerLink="/produit/{{p.id}}" class="waves-effect waves-light btn right red">Delete</a> 
+    </td>
+  
+    </tr>
+   </tbody>
+   
+  </table>

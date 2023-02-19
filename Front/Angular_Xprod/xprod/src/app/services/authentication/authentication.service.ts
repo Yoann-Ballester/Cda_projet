@@ -20,8 +20,8 @@ export class AuthenticationService {
    }
 
   public login(user:User) :  Observable<HttpResponse<User> | HttpErrorResponse> {
-    return this.http.post<User>(
-      `${this.host}/user/login`, user, {observe:'response'}
+    return this.http.post<User>('localhost:8085/user/login',user,{observe:'response'}
+      // `${this.host}/user/login`, user, {observe:'response'}
     );
   }
 

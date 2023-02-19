@@ -1,0 +1,39 @@
+<div class="row">
+    <form class="col s12" [formGroup]="editForm" (ngSubmit)="update()">
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="id" type="text" formControlName="id" data-length="10">
+                <label for="id">ID : </label>
+            </div>
+
+            <div class="input-field col s16">
+                <label for="refInterne">REF INTERNE : </label>
+                <input id="refInterne" type="text" formControlName="refInterne" data-length="10">
+              
+            </div>
+            <div class="input-field col s16">
+                <label for="designation">DESIGNATION : </label>
+                <input id="designation" type="text" formControlName="designation" data-length="10">
+             
+            </div>
+            <div class="input-field col s16">
+                <label for="descriptif">DESCRIPTIF : </label>
+                <input id="descriptif" type="text" formControlName="descriptif" data-length="10">
+               
+            </div>
+            <div class="input-field col s16">
+                <label for="prixUHT">PRIX UHT : </label>
+                <input id="prixUHT" type="text" formControlName="prixUHT" data-length="10">
+             
+            </div>
+            
+       
+        <button type="submit" [disabled]="!editForm.valid">Soumettre</button>
+        </div>
+
+
+    </form>
+  
+</div>
+{{editForm.value | json}}
+

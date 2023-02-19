@@ -34,8 +34,12 @@ export class LoginComponent implements OnInit,OnDestroy{
   ngOnInit(): void {
     if(this.authenticationService.isLoggedIn()){
       this.router.navigateByUrl('/user/management')
+      console.log("works");
+
     }else{
       this.router.navigateByUrl('/login')
+      console.log("nope");
+
     }
   }
 
@@ -62,7 +66,7 @@ export class LoginComponent implements OnInit,OnDestroy{
    if (message) {
     this.notificationService.notify(notificationType,message);
    }else{
-    this.notificationService.notify(notificationType,'AN ERROR OCCURED. PLEASE TTY AGAIN')
+    this.notificationService.notify(notificationType,'AN ERROR OCCURED. PLEASE TRY AGAIN')
    }
 
   }

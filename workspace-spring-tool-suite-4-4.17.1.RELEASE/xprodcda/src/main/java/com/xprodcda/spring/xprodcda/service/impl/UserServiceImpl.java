@@ -18,11 +18,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.xprodcda.spring.xprodcda.domain.User;
 import com.xprodcda.spring.xprodcda.domain.UserPrincipal;
 import com.xprodcda.spring.xprodcda.exception.domain.EmailExistException;
+import com.xprodcda.spring.xprodcda.exception.domain.NotAnImageFileException;
 import com.xprodcda.spring.xprodcda.exception.domain.UserNotFoundException;
 import com.xprodcda.spring.xprodcda.exception.domain.UsernameExistException;
 import com.xprodcda.spring.xprodcda.repository.IUserRepository;
@@ -43,6 +45,7 @@ import static com.xprodcda.spring.xprodcda.constant.SecurityConstant.*;
 public class UserServiceImpl implements IUserService, UserDetailsService {
 
 	
+	private static final String EMPTY = null;
 	private LoginAttemptService loginAttemptService;
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private IUserRepository  userRepository; 
@@ -223,20 +226,70 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		return userRepository.findAll();
 	}
 
-
-
 	@Override
 	public User findUserByUsername(String username) {
 		
 		return userRepository.findUserByUsername(username);
 	}
 
-
-
 	@Override
 	public User findUserByEmail(String email) {
 		
 		return userRepository.findUserByEmail(email);
+	}
+
+
+	public User addNewUser(String firstname, String lastname, String username, String email, String role,
+            boolean isNonLocked, boolean isActive, MultipartFile profileImage) throws NotAnImageFileException {
+        try {
+            validateNewUsernameAndEmail(EMPTY, username, email);
+            User user = new User();
+
+            String password = generatePassword();
+            String encodedPassword = encodePassword(password);
+            user.setUserId(generateUserId());
+            user.setUserId(username);
+            user.setFirstName(firstname);
+            user.setLastName(lastname);
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setJoinDate(new Date());
+            user.setPassword(encodedPassword);
+            user.setActive(isActive);
+            user.setNotLocked(isNonLocked);
+            user.setRole(getRoleEnumName(role).name());
+            user.setAuthorities(getRoleEnumName(role).getAuthorities());
+            user.setProfileImageURL(setProfileImageUrl(username));
+
+            /*
+             * user.setProfileImageURL(getTemporaryProfileImageURL(username));
+             */
+            userRepository.save(user);
+            LOGGER.info(NEW_USER_PASSWORD + password);
+            saveProfileImage(user, profileImage);
+            System.out.println(" ALERTE authorities : " + getRoleEnumName(role).getAuthorities());
+
+            return user;
+        } catch (UserNotFoundException | UsernameExistException | EmailExistException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+	@Override
+    public void deleteUser(long id) {
+        userRepository.deleteById(id);
+
+    }
+
+
+	@Override
+	public User updateUser(String currentUsername, String firstName, String lastName, String username, String email,
+			String role, boolean parseBoolean, boolean parseBoolean2, MultipartFile profileImage) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
